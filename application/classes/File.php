@@ -120,9 +120,11 @@ class File extends Kohana_File {
 
     /**
      * Метод проверяет является ли разширение файла типом $ext
-     * @param string $filename
-     * @param string $ext
-     * @throws Exception
+     * @param string $filename - это имя файла
+     * @param string $ext - это расширение с которым сравнивается расширение 
+     * файла
+     * @throws Exception - возвращаемое исключение, на случай, если в результате
+     * проверки имя файла не содержит требуемый тип.
      */
     public static function CheckExtension($filename, $ext) {
         $filenameArr = explode(".", $filename);
