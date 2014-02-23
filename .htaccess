@@ -1,3 +1,7 @@
+SetEnv KOHANA_ENV development
+#SetEnv KOHANA_ENV production
+#SetEnv KOHANA_ENV testing
+#SetEnv KOHANA_ENV staging
 # Turn on URL rewriting
 RewriteEngine On
 
@@ -19,3 +23,14 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # Rewrite all other URLs to index.php/URL
 RewriteRule .* index.php/$0 [PT]
+
+<IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    BrowserMatch MSIE ie
+    Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+
+    <FilesMatch "\.(appcache|crx|css|eot|gif|htc|ico|jpe?g|js|m4a|m4v|manifest|mp4|oex|oga|ogg|ogv|otf|pdf|png|safariextz|svg|svgz|ttf|vcf|webm|webp|woff|xml|xpi)$">
+        Header unset X-UA-Compatible
+    </FilesMatch>
+  </IfModule>
+</IfModule>
