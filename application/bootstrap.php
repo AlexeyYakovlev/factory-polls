@@ -134,12 +134,18 @@ Cookie::$salt = '7914479';
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+/**
+ * Контроллер по умолчанию для административной части
+ */
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
         ->defaults(array(
             'directory' => 'admin',
             'controller' => 'main',
             'action' => 'index',
         ));
+/**
+ * Контроллер по умолчанию для пользовательской части
+ */
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(
             'controller' => 'welcome',
