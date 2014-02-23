@@ -2,7 +2,7 @@
 
 /**
  * Статический класс для работы с файлами
- * @version 1.0
+ * @version 1.1
  * @author Yakovlev
  */
 class File extends Kohana_File {
