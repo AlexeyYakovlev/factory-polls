@@ -35,10 +35,6 @@ define('EXT', '.php');
  */
 define('DS', DIRECTORY_SEPARATOR);
 /**
- * Папка для закачки файлов.
- */
-define('UPLOADDIR', APPPATH . 'uploads' . DS);
-/**
  * Set the PHP error reporting level. If you set this in php.ini, you remove this.
  * @link http://www.php.net/manual/errorfunc.configuration#ini.error-reporting
  *
@@ -78,7 +74,10 @@ if (!is_dir($system) AND is_dir(DOCROOT . $system))
 define('APPPATH', realpath($application) . DS);
 define('MODPATH', realpath($modules) . DS);
 define('SYSPATH', realpath($system) . DS);
-
+/**
+ * Папка для закачки файлов.
+ */
+define('UPLOADDIR', APPPATH . 'uploads' . DS);
 // Clean up the configuration vars
 unset($application, $modules, $system);
 
