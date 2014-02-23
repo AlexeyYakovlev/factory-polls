@@ -34,10 +34,8 @@ class File extends Kohana_File {
                             Text::Translit($file['name'])
             );
             // Получаем путь для загрузки файла
-            if (!self::$filedir = self::GetDir())
-                throw new Kohana_Exception('Директория :dir недоступна для записи',
-                        array(':dir' => Debug::path($directory)));
-            ;
+            self::$filedir = self::GetDir();
+
             /* Если удалось скопировать файл из временной папки в папку для 
              * загрузки
              */
@@ -107,7 +105,9 @@ class File extends Kohana_File {
          * Создаем каталог с правами на запись если его ещё не существует на 
          * сервере.
          */
-        self::mkdir($dirName);
+        if (!self::mkdir($dirName))
+            throw new Kohana_Exception('Директория :dir недоступна для записи',
+                    array(':dir' => Debug::path($dirName)));
         // Возвращаем имя папки
         return $dirName;
     }
