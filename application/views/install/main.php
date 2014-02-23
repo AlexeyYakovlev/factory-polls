@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf8">
-        <title><?php echo $title; ?></title>
+        <title>Установка</title>
     </head>
     <body>
-        <?php echo $content; ?>
+        Крутяк!
     </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the bootstrap.php file.
@@ -13,7 +12,7 @@ $application = 'application';
  *
  * @link http://kohanaframework.org/guide/about.install#modules
  */
-$modules = 'modules';
+$modules = '/usr/share/kohana/modules';
 
 /**
  * The directory in which the Kohana resources are located. The system
@@ -21,7 +20,7 @@ $modules = 'modules';
  *
  * @link http://kohanaframework.org/guide/about.install#system
  */
-$system = 'system';
+$system = '/usr/share/kohana/system';
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -81,11 +80,6 @@ define('UPLOADDIR', APPPATH . 'uploads' . DS);
 // Clean up the configuration vars
 unset($application, $modules, $system);
 
-if (file_exists('install' . EXT)) {
-    // Load the installation check
-    return include 'install' . EXT;
-}
-
 /**
  * Define the start time of the application, used for profiling.
  */
@@ -103,21 +97,12 @@ if (!defined('KOHANA_START_MEMORY')) {
 // Bootstrap the application
 require APPPATH . 'bootstrap' . EXT;
 
-if (PHP_SAPI == 'cli') { // Try and load minion
-    class_exists('Minion_Task') OR die('
-            Please enable the Minion module for CLI support.
-            ');
-    set_exception_handler(array('Minion_Exception', 'handler'));
-
-    Minion_Task::factory(Minion_CLI::options())->execute();
-} else {
-    /**
-     * Execute the main request. 
-     * A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
-     * If no source is specified, the URI will be automatically detected.
-     */
-    echo Request::factory(TRUE, array(), FALSE)
-            ->execute()
-            ->send_headers(TRUE)
-            ->body();
-}
+/**
+ * Execute the main request. 
+ * A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+ * If no source is specified, the URI will be automatically detected.
+ */
+echo Request::factory(TRUE, array(), FALSE)
+        ->execute()
+        ->send_headers(TRUE)
+        ->body();

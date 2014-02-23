@@ -13,7 +13,7 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
     // Load empty core extension
     require SYSPATH . 'classes/Kohana' . EXT;
 }
-
+require APPPATH . 'classes/System' . EXT;
 /**
  * Set the default time zone.
  *
@@ -28,7 +28,7 @@ date_default_timezone_set('Europe/Moscow');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en_US.utf-8');
+setlocale(LC_ALL, 'ru_RU.utf-8');
 
 /**
  * Enable the Kohana auto-loader.
@@ -66,13 +66,12 @@ mb_substitute_character('none');
 /**
  * Set the default language
  */
-I18n::lang('en-us');
+I18n::lang('ru-ru');
 
 if (isset($_SERVER['SERVER_PROTOCOL'])) {
     // Replace the default protocol.
     HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
 }
-
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
@@ -113,7 +112,7 @@ Kohana::$log->attach(new Log_File(APPPATH . 'logs'));
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
-
+System::ready();
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
@@ -128,22 +127,13 @@ Kohana::modules(array(
     // 'unittest'   => MODPATH.'unittest',   // Unit testing
     'userguide' => MODPATH . 'userguide', // User guide and API documentation
 ));
-Cookie::$salt = '7914479';
+
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-/**
- * Контроллер по умолчанию для интерфейса первичной установки
- */
-Route::set('install', 'install(/<controller>(/<action>(/<id>)))')
-        ->defaults(array(
-            'directory' => 'install',
-            'controller' => 'main',
-            'action' => 'index',
-        ));
-/**
+    /**
  * Контроллер по умолчанию для административной части
  */
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
@@ -157,6 +147,7 @@ Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
  */
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(
-            'controller' => 'welcome',
+            'controller' => '<controller>',
             'action' => 'index',
+            'controller' => 'main'
         ));
