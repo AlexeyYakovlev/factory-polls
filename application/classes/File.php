@@ -15,7 +15,7 @@ class File extends Kohana_File {
 
     public static $filename;
     /* Путь к папке содержащей файл */
-    public static $filedir;
+    public static $filedir = UPLOADDIR;
 
     /**
      * Метод загружает файл на сервер
@@ -23,30 +23,34 @@ class File extends Kohana_File {
      */
     public static function Upload($file) {
         if (is_array($file)) {
-            $tmp_name = $file['excel']['tmp_name']; // файл во временной папке
+            $tmp_name = $file['tmp_name']; // файл во временной папке
             /*
              * Постобработка имени файла на случай если файл с таким именем уже 
              * существует на сервере. Для постобработки используется 
              * File::GetFileName(). На случай, если имя файла содержит символы
-             * русского языка применяется метод траслитерации String::Translit()
+             * русского языка применяется метод траслитерации Text::Translit()
              */
             self::$filename = self::GetFileName(
-                            String::Translit($file['excel']['name'])
+                            Text::Translit($file['name'])
             );
-            self::$filedir = self::GetDir(); // Получаем путь для загрузки файла
+            // Получаем путь для загрузки файла
+            if (!self::$filedir = self::GetDir())
+                throw new Kohana_Exception('Директория :dir недоступна для записи',
+                        array(':dir' => Debug::path($directory)));
+            ;
             /* Если удалось скопировать файл из временной папки в папку для 
              * загрузки
              */
             if (move_uploaded_file(
-                            $tmp_name, self::$filedir . "/" . self::$filename)
+                            $tmp_name, self::$filedir . DS . self::$filename)
             ) {
                 return true; // Возращаем истину. Файл загружен.
             } else // В противном случае
             // Генерируем ошибку
-                throw new Exception('
+                throw new Exception("
                     Ошибка! Файл не загружен. 
-                    Вероятно проблема в правах на папку uploads?
-                    ');
+                    Вероятно проблема в правах на папку :dir?
+                    ", array(":dir" => self::$filedir));
         } else // В противном случае
         // Генерируем ошибку
             throw new Exception('Ошибка! Файл на сервер не был передан.');
@@ -55,24 +59,13 @@ class File extends Kohana_File {
     /**
      * Метод возвращает имя загруженного файла с постфиксом
      * @param string $name - это имя загруженного файла
-     * @param integer $postfix - это постфикс
+     * @param integer $postfix - это счетчик одноименных файлов
      */
     public static function GetNewFileName($name, $postfix) {
-        /* Собираем массив из имени, разделитель точка. 
-         * Этот массив нам нужн для того, чтобы отделить имя от расширения файла
-         */
-        $nameStruct = explode(".", $name);
-        /* Исключаем последний элемент из массива и присваиваем его переменной
-         * Это и есть расширение загруженного файла.
-         */
-        $ext = array_pop($nameStruct);
-        /* То, что осталось от массива собираем обратно в строку с тем-же 
-         * разделителем. Теперь у нас получится то же имя, но без расширения
-         */
-        $name = implode(".", $nameStruct);
-        // Уничтожаем массив, он нам больше не нужен
-        unset($nameStruct);
-        return "{$name}({$postfix}).{$ext}"; // Возвращаем новое имя
+        // Возвращаем новое имя
+        return pathinfo($name, PATHINFO_FILENAME)
+                . "({$postfix})"
+                . pathinfo($name, PATHINFO_EXTENSION);
     }
 
     /**
@@ -83,7 +76,7 @@ class File extends Kohana_File {
      */
     public static function GetFileName($name) {
         // Если файл с таким именем уже существует на сервере...
-        if (file_exists(self::GetDir() . "/" . $name)) {
+        if (file_exists(self::GetDir() . DS . $name)) {
             /* Инициализируем итератор, он играет роль постфикса для конечного 
              * имени
              */
@@ -98,7 +91,7 @@ class File extends Kohana_File {
                  */
                 $newName = self::CreateNewFileName($name, $i);
                 // Условие цикла
-            } while (file_exists(self::GetDir() . "/" . $newName));
+            } while (file_exists(self::GetDir() . DS . $newName));
             return $newName; // Возвращаем сформированное имя
         } else // В противном случае
             return $name; // Возвращаем оригинальное имя
@@ -109,11 +102,12 @@ class File extends Kohana_File {
      */
     public static function GetDir() {
         // В качестве имени каталога используем текущую дату
-        $dirName = "uploads/" . date("Y-m-d");
-        // Если папки ещё не существует на сервере
-        if (!file_exists($dirName))
-        // Создаем ее с правами на запись
-            mkdir($dirName, 0777);
+        $dirName = self::$filedir . Text::DateToDir();
+        /**
+         * Создаем каталог с правами на запись если его ещё не существует на 
+         * сервере.
+         */
+        self::mkdir($dirName);
         // Возвращаем имя папки
         return $dirName;
     }
@@ -127,11 +121,38 @@ class File extends Kohana_File {
      * проверки имя файла не содержит требуемый тип.
      */
     public static function CheckExtension($filename, $ext) {
-        $filenameArr = explode(".", $filename);
-        $extenstion = array_pop($filenameArr);
-        if ($extenstion != $ext) {
-            throw new Exception('Неверный тип файла. Необходимо, загружать файлы только XLSX формата!');
+        if (strtolower(
+                        pathinfo($filename, PATHINFO_EXTENSION)
+                ) != strtolower($ext)) {
+            throw new Exception("
+                Неверный тип файла. Необходимо, загружать файлы только :ext 
+                формата!", array(":ext" => $ext));
         }
+    }
+
+    /**
+     * @copyright (c) 2013, Sergey Yakovlev (klay)
+     * Attempts to create the directory specified by `$path`
+     *
+     * To create the nested structure, the `$recursive` parameter
+     * to mkdir() must be specified.
+     *
+     * @param   string  $path       The directory path
+     * @param   integer $mode       Set permission mode (as in chmod) [Optional]
+     * @param   boolean $recursive  Create directories recursively if necessary [Optional]
+     * @return  boolean             Returns TRUE on success or FALSE on failure
+     *
+     * @link    http://php.net/manual/en/function.mkdir.php mkdir()
+     */
+    public static function mkdir($path, $mode = 0777, $recursive = TRUE) {
+        $out = FALSE;
+        $oldumask = umask(0);
+        if (!is_dir($path)) {
+            $out = @mkdir($path, $mode, $recursive);
+        }
+        umask($oldumask);
+
+        return $out;
     }
 
 }
