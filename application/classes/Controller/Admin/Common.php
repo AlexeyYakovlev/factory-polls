@@ -5,9 +5,9 @@ defined('SYSPATH') or die('No direct script access');
 /**
  * Базовый контроллер для панели управления
  */
-abstract class Controller_Admin extends Controller_Template {
+abstract class Controller_Admin_Common extends Controller_Template {
 
-    public $template = 'main';
+    public $template = '/admin/main';
 
     public function before() {
         parent::before();
