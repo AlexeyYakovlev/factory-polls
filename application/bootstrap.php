@@ -135,6 +135,15 @@ Cookie::$salt = '7914479';
  * defaults for the URI.
  */
 /**
+ * Контроллер по умолчанию для интерфейса первичной установки
+ */
+Route::set('install', 'install(/<controller>(/<action>(/<id>)))')
+        ->defaults(array(
+            'directory' => 'install',
+            'controller' => 'main',
+            'action' => 'index',
+        ));
+/**
  * Контроллер по умолчанию для административной части
  */
 Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
