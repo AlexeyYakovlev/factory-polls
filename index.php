@@ -71,6 +71,7 @@ if (!is_dir($system) AND is_dir(DOCROOT . $system))
     $system = DOCROOT . $system;
 
 // Define the absolute paths for configured directories
+define('APPDIR', $application . DS);
 define('APPPATH', realpath($application) . DS);
 define('MODPATH', realpath($modules) . DS);
 define('SYSPATH', realpath($system) . DS);
