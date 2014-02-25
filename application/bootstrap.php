@@ -112,6 +112,9 @@ Kohana::$log->attach(new Log_File(APPPATH . 'logs'));
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
+/**
+ * Инициализация системы
+ */
 System::ready();
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
