@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the bootstrap.php file.
@@ -74,7 +75,7 @@ define('APPPATH', realpath($application) . DS);
 define('MODPATH', realpath($modules) . DS);
 define('SYSPATH', realpath($system) . DS);
 /**
- * Папка для закачки файлов.
+ * Каталог для закачки файлов.
  */
 define('UPLOADDIR', APPPATH . 'uploads' . DS);
 // Clean up the configuration vars
