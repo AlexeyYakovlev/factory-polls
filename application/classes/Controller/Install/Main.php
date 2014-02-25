@@ -2,9 +2,15 @@
 
 defined('SYSPATH') or die('No direct script access');
 
-class Controller_Install_Main extends Controller_Template {
+class Controller_Install_Main extends Controller_Assets {
+
     // Шаблон по умолчанию
     public $template = 'install/main';
+
+    public function before() {
+        parent::before();
+        $this->template->assets = $this->getAssets();
+    }
 
     public function action_index() {
         
@@ -19,7 +25,9 @@ class Controller_Install_Main extends Controller_Template {
         $config->dbname = $database;
         $config->prefix = $table_prefix;
         $config->port = '';
-        return file_put_contents(APPPATH . 'config/database.php', $config) !== false;
+        return file_put_contents(
+                        APPPATH . 'config/database.php', $config
+                ) !== false;
     }
 
 }
