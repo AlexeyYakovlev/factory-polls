@@ -3,7 +3,7 @@
 defined('SYSPATH') or die('No direct script access');
 
 class Controller_Install_Main extends Controller_Template {
-
+    // Шаблон по умолчанию
     public $template = 'install/main';
 
     public function action_index() {
