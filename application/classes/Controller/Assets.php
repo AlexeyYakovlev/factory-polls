@@ -12,7 +12,7 @@ abstract class Controller_Assets extends Controller_Template {
 
     public function before() {
         parent::before();
-        $this->setAssets(Kohana::$config->load('assets'), APPDIR);
+        $this->setAssets(Kohana::$config->load('assets'));
     }
 
     public function setAssets($config, $directory = '', $level = '') {
