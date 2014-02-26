@@ -44,7 +44,6 @@ abstract class Controller_Assets extends Controller_Template {
         if ($separator == DS)
             $level .= DS;
         unset($levelUp);
-        return $level;
     }
 
     public function getAssets() {
