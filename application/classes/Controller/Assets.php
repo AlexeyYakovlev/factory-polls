@@ -15,41 +15,43 @@ abstract class Controller_Assets extends Controller_Template {
     private $_img;
 
     private function setMedia() {
-        $this->_media = URL::base() . APPDIR . 'media' . DS;
+        $this->_media = File::ChekDir(URL::base() . APPDIR . 'media' . DS);
+        return $this;
     }
 
     private function setCss() {
-        $this->_css = $this->_media . 'css' . DS;
+        $this->_css = File::ChekDir($this->_media . 'css' . DS);
     }
 
     private function setSystemTheme() {
-        $this->_systemTheme = $this->_css . 'themes' . DS;
+        $this->_systemTheme = File::ChekDir($this->_css . 'themes' . DS);
     }
 
     private function setPlugins() {
-        $this->_plugins = $this->_media . 'plugins' . DS;
+        $this->_plugins = File::ChekDir($this->_media . 'plugins' . DS);
     }
 
     private function setFontAwesome() {
-        $this->_fontAwesome = $this->_plugins
-                . 'font-awesome' . DS . 'css' . DS;
+        $this->_fontAwesome = File::ChekDir($this->_plugins
+                        . 'font-awesome' . DS . 'css' . DS);
     }
 
     private function setBootstrap() {
-        $this->_bootstrap = $this->_plugins
-                . 'bootstrap' . DS . 'css' . DS;
+        $this->_bootstrap = File::ChekDir($this->_plugins
+                        . 'bootstrap' . DS . 'css' . DS);
     }
 
     private function setUniform() {
-        $this->_uniform = $this->_plugins
-                . 'uniform' . DS . 'css' . DS;
+        $this->_uniform = File::ChekDir($this->_plugins
+                        . 'uniform' . DS . 'css' . DS);
     }
 
     private function setSelect2() {
-        $this->_select2 = $this->_plugins . 'select2' . DS;
+        $this->_select2 = File::ChekDir($this->_plugins . 'select2' . DS);
     }
+
     private function setImg() {
-        $this->_img = $this->_media . 'img' . DS;
+        $this->_img = File::ChekDir($this->_media . 'img' . DS);
     }
 
     public function before() {
