@@ -21,50 +21,59 @@ abstract class Controller_Assets extends Controller_Template {
 
     private function setCss() {
         $this->_css = File::ChekDir($this->_media . 'css' . DS);
+        return $this;
     }
 
     private function setSystemTheme() {
         $this->_systemTheme = File::ChekDir($this->_css . 'themes' . DS);
+        return $this;
     }
 
     private function setPlugins() {
         $this->_plugins = File::ChekDir($this->_media . 'plugins' . DS);
+        return $this;
     }
 
     private function setFontAwesome() {
         $this->_fontAwesome = File::ChekDir($this->_plugins
                         . 'font-awesome' . DS . 'css' . DS);
+        return $this;
     }
 
     private function setBootstrap() {
         $this->_bootstrap = File::ChekDir($this->_plugins
                         . 'bootstrap' . DS . 'css' . DS);
+        return $this;
     }
 
     private function setUniform() {
         $this->_uniform = File::ChekDir($this->_plugins
                         . 'uniform' . DS . 'css' . DS);
+        return $this;
     }
 
     private function setSelect2() {
         $this->_select2 = File::ChekDir($this->_plugins . 'select2' . DS);
+        return $this;
     }
 
     private function setImg() {
         $this->_img = File::ChekDir($this->_media . 'img' . DS);
+        return $this;
     }
 
     public function before() {
         parent::before();
-        $this->setMedia();
-        $this->setCss();
-        $this->setSystemTheme();
-        $this->setPlugins();
-        $this->setFontAwesome();
-        $this->setBootstrap();
-        $this->setUniform();
-        $this->setSelect2();
-        $this->setImg();
+        $this->
+                setMedia()
+                ->setCss()
+                ->setSystemTheme()
+                ->setPlugins()
+                ->setFontAwesome()
+                ->setBootstrap()
+                ->setUniform()
+                ->setSelect2()
+                ->setImg();
     }
 
     public function getAssets() {
