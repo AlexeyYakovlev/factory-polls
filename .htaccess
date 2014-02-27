@@ -13,7 +13,7 @@ RewriteBase /factory-polls/
 	Order Deny,Allow
 	Deny From All
 </Files>
-
+RewriteRule ^application/media/(.*)$ application/media/$1 [L]
 # Protect application and system files from being viewed
 RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
 
