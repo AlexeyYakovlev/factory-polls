@@ -3,34 +3,25 @@
 defined('SYSPATH') or die('No direct script access');
 
 /**
- * Абстрактный класс для инициализиции каталогов содержащих медиа данные.
+ * Класс для инициализиции каталогов содержащих медиа данные.
  */
-abstract class Controller_Assets extends Controller_Template {
+class Assets {
 
     // Массив каталогов для медиа данных
-    private $_assets;
-
-    /**
-     * Данный метод будет вызван раньше остальных
-     */
-    public function before() {
-        // Вызываем метод родительского класса
-        parent::before();
-        // Инициализирум массив каталогов
-        $this->setAssets(Kohana::$config->load('assets'));
-    }
+    private static $_assets;
 
     /**
      * Данный метод инициализирует дерево каталогов
+     * @uses Kohana::$config->load
      * @param array $config конфиг
      * @param string $directory текущая позиция в дереве каталогов
      * @param string $level текущая позиция в массиве конфига
      */
-    private function setAssets($config, $directory = '', $level = '') {
+    private static function set($config, $directory = '', $level = '') {
         // Проходим в цикле массив из конфига
         foreach ($config as $dir => $val) {
             // Инициализируем ключ во избежании notice
-            $this->_assets[$dir] = '';
+            self::$_assets[$dir] = '';
             // Если значение в конфиге это массив
             if (is_array($val)) {
                 // Устанавливаем уровень вложенности в массиве
@@ -38,24 +29,24 @@ abstract class Controller_Assets extends Controller_Template {
                 // Устанавливаем уровень вложенности директории
                 $directory .= $dir . DS;
                 // Записываем в массив текущую директорию
-                $this->_assets[$dir] .= $directory;
+                self::$_assets[$dir] .= $directory;
                 /**
                  * Рекурсивно вызываем метод и передаем уровни вложенности для 
                  * директории и для массива
                  */
-                $this->setAssets(
+                self::set(
                         Kohana::$config->load(
                                 'assets' . $level
                         ), $directory, $level
                 );
                 // Поднимаемся на уровень выше в конфиге
-                $this->LevelUp($level, '.');
+                self::LevelUp($level, '.');
                 // ПОднимаемся на уровень выше в директории
-                $this->LevelUp($directory, DS);
+                self::LevelUp($directory, DS);
                 // в противном случае
             } else {
                 // Записываем в массив текущую директорию
-                $this->_assets[$dir] = $directory . $val . DS;
+                self::$_assets[$dir] = $directory . $val . DS;
             }
         }
     }
@@ -66,7 +57,7 @@ abstract class Controller_Assets extends Controller_Template {
      * @param string $level ссылка на строку с указанием текущего уровня
      * @param string $separator разделитель уровней
      */
-    private function LevelUp(&$level, $separator) {
+    private static function LevelUp(&$level, $separator) {
         // Преобразуем строку во временный массив
         $levelUp = explode($separator, $level);
         // Если разделитель является разделителем директорий
@@ -97,15 +88,18 @@ abstract class Controller_Assets extends Controller_Template {
      * массив директорий и возвращает его. В случае если директории не 
      * существует, или она недоступна для чтения, то в лог файл будет 
      * сгенерированна соответствующая ошибка.
+     * @uses File::CheckDIr() метод проверки директорий
      * @return array массив директорий
      */
-    public function getAssets() {
+    public static function get() {
+        // Инициализируем массив директорий
+        self::set(Kohana::$config->load('assets'));
         // Перебираем массив директорий
-        foreach ($this->_assets as $asset)
+        foreach (self::$_assets as $asset)
         // Проверяем на существование и возможность чтения.
             File::ChekDir($asset, DOCROOT);
         // Возвращаем массив директорий
-        return $this->_assets;
+        return self::$_assets;
     }
 
 }
