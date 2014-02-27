@@ -2,10 +2,7 @@
 
 defined('SYSPATH') or die('No direct script access');
 
-class Controller_Install_Main extends Controller_Template {
-
-    // Шаблон по умолчанию
-    public $template = 'install/main';
+class Controller_Install_Main extends Controller_Install_Common {
 
     /**
      * Данный метод выполняется раньше прочих
@@ -13,12 +10,11 @@ class Controller_Install_Main extends Controller_Template {
      */
     public function before() {
         parent::before();
-        // Получаем список директорий подключаемых медиафайлов из config/assets
-        $this->template->assets = Assets::get();
     }
 
     public function action_index() {
-        
+        $content = View::factory('install/index');
+        $this->template->content = $content;
     }
 
     public function action_install() {
