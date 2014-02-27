@@ -7,8 +7,13 @@ class Controller_Install_Main extends Controller_Template {
     // Шаблон по умолчанию
     public $template = 'install/main';
 
+    /**
+     * Данный метод выполняется раньше прочих
+     * @uses Assets::get() список директорий подключаемых медиафайлов
+     */
     public function before() {
         parent::before();
+        // Получаем список директорий подключаемых медиафайлов из config/assets
         $this->template->assets = Assets::get();
     }
 
