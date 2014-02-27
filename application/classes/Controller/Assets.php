@@ -26,7 +26,7 @@ abstract class Controller_Assets extends Controller_Template {
      * @param string $directory текущая позиция в дереве каталогов
      * @param string $level текущая позиция в массиве конфига
      */
-    public function setAssets($config, $directory = '', $level = '') {
+    private function setAssets($config, $directory = '', $level = '') {
         // Проходим в цикле массив из конфига
         foreach ($config as $dir => $val) {
             // Инициализируем ключ во избежании notice
