@@ -114,9 +114,11 @@
         <script src="<?php echo $assets['bootstrap-wizard']; ?>jquery.bootstrap.wizard.min.js"></script>
         <script src="<?php echo $assets['select2']; ?>select2.min.js"></script>
         <script src="<?php echo $assets['scripts']; ?>app.js"></script>
+        <script src="<?php echo $assets['scripts']; ?>form-wizard.js"></script>
         <script>
             $(document).ready(function() {       
                 App.init();
+                FormWizard.init();
             });
         </script>
     </body>
