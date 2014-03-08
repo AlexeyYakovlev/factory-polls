@@ -16,6 +16,10 @@ class Controller_Install_Main extends Controller_Install_Common {
         $content = View::factory('install/index');
         $this->template->content = $content;
     }
+    public function action_systemchek() {
+        $content = View::factory('install/system');
+        $this->template->content = $content;
+    }
 
     public function action_install() {
         $config = new View('install/config');
