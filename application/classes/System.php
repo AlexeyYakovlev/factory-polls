@@ -61,6 +61,31 @@ class System {
         }
     }
 
+    /**
+     * Получение глобального конфига
+     * @param string $key значение необходимо, если из конфига требуется 
+     * получить конкретное значение, в противно случае метод вернет массив 
+     * данных всего конфига.
+     * @return string | array
+     * @throws Exception
+     */
+    public static function GetGlobalConfig($key = false) {
+        // Загружаем конфиг
+        $config = Kohana::$config->load('global');
+        // Если требуется получить конкретное значение конфига
+        if ($key !== false) {
+            // Проверка существует ли ключ по которому ведется запрос значения
+            if (array_key_exists($key, $config))
+            // Возвращаем значение
+                return $config[$key];
+            else
+            //Генерируем исключение
+                throw new Exception("Невозможно получить {$val} из конфига global");
+        } else
+        // Возвращаем весь кофиг в виде массива
+            return $config;
+    }
+
 }
 
 ?>
