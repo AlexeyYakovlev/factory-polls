@@ -14,7 +14,7 @@
                                 <li>
                                     <a href="<?php echo URL::base(); ?>" class="step">
                                         <span class="number">1</span>
-                                        <span class="desc"><i class="fa fa-check"></i> Учтеная запись</span>   
+                                        <span class="desc"><i class="fa fa-check"></i> Учетная запись</span>   
                                     </a>
                                 </li>
                                 <li>
