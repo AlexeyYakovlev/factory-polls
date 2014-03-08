@@ -13,7 +13,7 @@ abstract class Controller_Install_Common extends Controller_Template {
         parent::before();
         // Получаем список директорий подключаемых медиафайлов из config/assets
         $this->template->assets = Assets::get();
-        View::set_global('title', 'Установка');
+        View::set_global('g_title', System::GetGlobalConfig('title'));
         $this->template->content = '';
         $this->template->styles = '';
         $this->template->scripts = '';
