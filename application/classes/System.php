@@ -36,7 +36,7 @@ class System {
             Session::$default = 'cookie';
             // Устанавливаем роут инсталятора
             Route::set('install', '(install(/<action>))', array(
-                        'action' => 'index|systemchek|database|install'
+                        'action' => 'index|systemcheck|database|project|install'
                     ))
                     ->defaults(array(
                         'controller' => 'main',

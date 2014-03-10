@@ -5,7 +5,7 @@
     <head>
         <base href="<?php echo URL::base(TRUE) ?>">
         <meta charset="utf-8" >
-        <title><?php echo $g_title;?>Установка</title>
+        <title><?php echo $g_title; ?>Установка</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0" name="viewport" >
         <meta content="" name="description" >
@@ -36,39 +36,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="page-container">
-            <div class="page-sidebar navbar-collapse collapse">
-                <ul class="page-sidebar-menu">
-                    <li>
-                        <div class="sidebar-toggler hidden-phone"></div>
-                    </li>
-                    <li class="start active">
-                        <a href="javascript:;">
-                            <i class="fa fa-cogs"></i>
-                            <span class="title">Установка</span>
-                            <span class="selected "></span>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="#">
-                                        Учетная запись
-                                    </a>
-                                </li>
-                                <li class="disabled-link">
-                                    <a href="#">
-                                        <span class="text">Проверка системы</span></a>
-                                </li>
-                                <li class="disabled-link">
-                                    <a href="#">
-                                        <span class="text">Настройки базы данных</span></a>
-                                </li>
-                                <li class="disabled-link">
-                                    <a href="#">
-                                        <span class="text">Настройки проекта</span></a>
-                                </li>
-                            </ul>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <?php echo $menu; ?>
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
@@ -83,7 +51,7 @@
                         </ul>
                     </div>
                 </div>
-                <?php echo $content;?>
+                <?php echo $content; ?>
             </div>
         </div>
         <div class = "footer">
