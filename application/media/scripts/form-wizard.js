@@ -10,7 +10,7 @@ var FormWizard = function () {
                     document.getElementById("submit_form_password").setCustomValidity('');
                 }
             });
-            $('li.disabled-link a').click(function(){
+            $('li.disabled-link a, ul.steps a.disabled').click(function(){
                 return false;
             });
         }

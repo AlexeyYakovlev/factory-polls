@@ -1,41 +1,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box blue" id="form_wizard_1">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-reorder"></i> Учтеная запись администратора - <span class="step-title">шаг 1 из 4</span>
-                </div>
-            </div>
+            <?php echo $g_stepdesc; ?>
             <div class="portlet-body form">
                 <form action="#" class="form-horizontal" id="submit_form">
                     <div class="form-wizard">
                         <div class="form-body">
-                            <ul class="nav nav-pills nav-justified steps">
-                                <li>
-                                    <a href="<?php echo URL::base(); ?>" class="step">
-                                        <span class="number">1</span>
-                                        <span class="desc"><i class="fa fa-check"></i> Учетная запись</span>   
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="step disabled">
-                                        <span class="number">2</span>
-                                        <span class="desc"><i class="fa fa-check"></i> Проверка системы</span>   
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="step disabled">
-                                        <span class="number">3</span>
-                                        <span class="desc"><i class="fa fa-check"></i> Настройки базы данных</span>   
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="step disabled">
-                                        <span class="number">4</span>
-                                        <span class="desc"><i class="fa fa-check"></i> Настройки проекта</span>   
-                                    </a> 
-                                </li>
-                            </ul>
+                            <?php echo $g_steps; ?>
                             <div id="bar" class="progress progress-striped" role="progressbar">
                                 <div class="progress-bar progress-bar-success"></div>
                             </div>

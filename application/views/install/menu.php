@@ -10,8 +10,8 @@
                 <span class="selected "></span>
             </a>
             <ul class="sub-menu">
-                <?php foreach ($menuitems as $menuitem): ?>
-                    <li class="<?php echo $menuitem['class']; ?>">
+                <?php foreach ($g_menuitems as $menuitem): ?>
+                    <li class="<?php echo $menuitem['liclass']; ?>">
                         <a href="<?php echo $menuitem['href']; ?>">
                             <span class="text"><?php echo $menuitem['text']; ?></span>
                         </a>

@@ -14,28 +14,27 @@ abstract class Controller_Install_Common extends Controller_Template {
         // Получаем список директорий подключаемых медиафайлов из config/assets
         $this->template->assets = Assets::get();
         View::set_global('g_title', System::GetGlobalConfig('title'));
-        $menu = View::factory('install/menu')
-                ->set('menuitems', $this->getMenuItems());
-        $this->template->menu = $menu;
+        View::set_global('g_menuitems', $this->getMenuItems());
+        View::set_global('g_stepdesc', View::factory('install/stepdesc'));
+        View::set_global('g_steps', View::factory('install/steps'));
+        $this->template->menu = View::factory('install/menu');
         $this->template->content = '';
     }
 
     private function getMenuItems() {
-        $steps = array(
-            'index' => 1,
-            'systemcheck' => 2,
-            'database' => 3,
-            'install' => 4
-        );
         $menuitems = Kohana::$config->load('menuinstall');
         $tmpArr = $menuitems;
         $action = $this->request->current()->action();
-        $step = $steps[$action];
+        $step = $tmpArr[$action]['step'];
         foreach ($tmpArr as $index => $item) {
-            if (($action != $index) && ($steps[$index] > $step))
-                $menuitems[$index]['class'] = 'disabled-link';
-            elseif($steps[$index] == $step)
-                $menuitems[$index]['class'] = 'active';
+            $menuitems[$index]['progress'] = round(
+                    (100 / count($menuitems)) * $menuitems[$index]['step']
+            );
+            if (($action != $index) && ($item['step'] > $step)) {
+                $menuitems[$index]['liclass'] = 'disabled-link';
+                $menuitems[$index]['aclass'] = 'disabled';
+            } elseif ($item['step'] == $step)
+                $menuitems[$index]['liclass'] = 'active';
         }
         return $menuitems;
     }
