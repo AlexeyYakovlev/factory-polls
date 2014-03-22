@@ -3,3 +3,4 @@ application/logs/*
 /nbproject/private/
 *.php~
 application/config/database.php
+nbproject/project.properties
