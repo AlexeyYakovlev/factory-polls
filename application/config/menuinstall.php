@@ -3,20 +3,12 @@
 defined('SYSPATH') or die('No direct script access');
 
 return array(
-    'index' => array(
-        'href' => URL::base() . 'install/index',
-        'aclass' => '',
-        'liclass' => '',
-        'progress' => '',
-        'step' => 1,
-        'text' => 'Учетная запись',
-    ),
     'systemcheck' => array(
         'aclass' => '',
         'href' => URL::base() . 'install/systemcheck',
         'liclass' => '',
         'progress' => '',
-        'step' => 2,
+        'step' => 1,
         'text' => 'Проверка системы'
     ),
     'database' => array(
@@ -24,8 +16,16 @@ return array(
         'href' => URL::base() . 'install/database',
         'liclass' => '',
         'progress' => '',
-        'step' => 3,
+        'step' => 2,
         'text' => 'Настройки базы данных'
+    ),
+    'admin' => array(
+        'href' => URL::base() . 'install/admin',
+        'aclass' => '',
+        'liclass' => '',
+        'progress' => '',
+        'step' => 3,
+        'text' => 'Учетная запись',
     ),
     'project' => array(
         'aclass' => '',

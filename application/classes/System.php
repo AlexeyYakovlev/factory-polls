@@ -36,12 +36,13 @@ class System {
             Session::$default = 'cookie';
             // Устанавливаем роут инсталятора
             Route::set('install', '(install(/<action>))', array(
-                        'action' => 'index|systemcheck|database|project|install'
+                        'action' => 'systemcheck|database|admin|project|install'
                     ))
                     ->defaults(array(
                         'controller' => 'main',
-                        'directory' => 'install'
-                    ));
+                        'directory' => 'install',
+                        'action' => 'systemcheck'
+            ));
             return;
         }
         // Система проинициализирована
@@ -84,6 +85,18 @@ class System {
         } else
         // Возвращаем весь кофиг в виде массива
             return $config;
+    }
+
+    /**
+     * Очищает кэш состояния файлов
+     */
+    public static function ClearStateCach() {
+        // Для версии PHP < 5.3
+        if (version_compare(PHP_VERSION, '5.3', '<'))
+            clearstatcache();
+        // Для всех остальных
+        else
+            clearstatcache(TRUE);
     }
 
 }
