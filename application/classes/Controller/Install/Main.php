@@ -18,7 +18,28 @@ class Controller_Install_Main extends Controller_Install_Common {
     }
 
     public function action_systemcheck() {
+        if (!$this->request->isPost())
+            $this->redirect();
+        $post = $this->request->post();
+        $username = Arr::get($post, 'username', 'error');
+        $password = Arr::get($post, 'password', 'error');
+        Cookie::set('username', $username);
+        Cookie::set('password', $password);
         $content = View::factory('install/system');
+        $this->template->content = $content;
+    }
+
+    public function action_database() {
+        if ($this->request->method() != Request::POST)
+            $this->redirect();
+        $content = View::factory('install/database');
+        $this->template->content = $content;
+    }
+
+    public function action_project() {
+        if ($this->request->method() != Request::POST)
+            $this->redirect();
+        $content = View::factory('install/project');
         $this->template->content = $content;
     }
 
